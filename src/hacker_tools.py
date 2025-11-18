@@ -1,5 +1,7 @@
 from collections import Counter
 import nltk
+nltk.download('brown')
+from nltk.corpus import brown
 
 def get_top_trigrams(text, n=200):
 
@@ -12,8 +14,6 @@ def get_top_trigrams(text, n=200):
     return counter.most_common(n)
 
 def get_brown_top_trigrams(n=200):
-    nltk.download('brown')
-    from nltk.corpus import brown
     brown_text = ' '.join(word.lower() for word in brown.words() if word.isalpha())
     return get_top_trigrams(brown_text, n)
 
