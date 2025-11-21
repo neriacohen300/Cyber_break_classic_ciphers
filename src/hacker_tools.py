@@ -3,26 +3,26 @@ import nltk
 nltk.download('brown')
 from nltk.corpus import brown
 
-def get_top_trigrams(text, n=200):
+def get_top_vgrams(text, v, n=200):
 
     # Remove non-alphabetic characters and create trigrams
     text = ''.join(c for c in text.lower() if c.isalpha())
-    trigrams = [text[i:i+3] for i in range(len(text) - 2)]
+    trigrams = [text[i:i+v] for i in range(len(text) - 2)]
     
     # Count and return top n trigrams
     counter = Counter(trigrams)
     return counter.most_common(n)
 
-def get_brown_top_trigrams(n=200):
+def get_brown_top_vgrams(v, n=200):
     brown_text = ' '.join(word.lower() for word in brown.words() if word.isalpha())
-    return get_top_trigrams(brown_text, n)
+    return get_top_vgrams(brown_text, v, n)
 
 def compare_trigrams(trigrams1, trigrams2):
     """Compare how many trigrams are shared between two lists of top trigrams."""
     set1 = set(trigram for trigram, count in trigrams1)
     set2 = set(trigram for trigram, count in trigrams2)
     shared = set1.intersection(set2)
-    return len(shared)
+    return len(shared), shared
 
 ENGLISH_FREQ = {
     'a': 0.08167, 'b': 0.01492, 'c': 0.02782, 'd': 0.04253, 'e': 0.12702,
@@ -80,12 +80,12 @@ if __name__ == "__main__":
     
     # Top trigrams
     print("\nTop 10 trigrams in sample text:")
-    top_trigrams = get_top_trigrams(sample_text, 10)
+    top_trigrams = get_top_vgrams(sample_text,3, 10)
     for trigram, count in top_trigrams:
         print(f"  {trigram}: {count}")
     
     # Compare with Brown corpus
     print("\nComparing with Brown corpus trigrams...")
-    brown_trigrams = get_brown_top_trigrams(50)
+    brown_trigrams = get_brown_top_vgrams(3, 50)
     shared = compare_trigrams(top_trigrams, brown_trigrams)
     print(f"  Shared trigrams: {shared}")

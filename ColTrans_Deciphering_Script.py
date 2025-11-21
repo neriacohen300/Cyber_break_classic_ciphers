@@ -46,7 +46,7 @@ def ColTrans(text):
                                 if i < len(col):
                                     candidate_text += col[i]
 
-                        sharedT = compare_trigrams(get_top_trigrams(candidate_text), get_brown_top_trigrams())
+                        sharedT = compare_trigrams(get_top_vgrams(candidate_text, 3), get_brown_top_vgrams(3))
 
                         if sharedT > max_shared:
                             max_shared = sharedT
